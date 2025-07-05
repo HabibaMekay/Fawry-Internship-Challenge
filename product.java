@@ -1,18 +1,21 @@
-abstract class Product {
+abstract class Product implements Shippable {
     protected String name;
     protected double price;
-    protected double weight = 0;
+    protected double weight;
     protected int quantity;
     protected boolean isExpirable;
     protected boolean isShippable;
-    
 
-    public Product(String name, double price, int quantity, int weight) {
+    public Product(String name, double price, int quantity, double weight, boolean isExpirable, boolean isShippable) throws Exception {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.weight = weight;
- 
+        this.isExpirable = isExpirable;
+        this.isShippable = isShippable;
+        this.weight = isShippable ? weight : 0.0;
+        if (isShippable && weight <= 0) {
+            throw new Exception("Weight must be positive");
+        }
     }
 
     public String getName() {
@@ -27,30 +30,14 @@ abstract class Product {
         return quantity;
     }
 
-    public void decreaseQuantity(int amount) {
+    public void reduceQuantity(int amount) {
         this.quantity -= amount;
     }
 
+    @Override
+    public double getWeight() {
+        return weight;
+    }
 
     public abstract boolean isExpired();
-}
-
-class Cart{
-    List<Product> allProducts;
-    void add(Product product){
-        allProducts.add(product);
-    }
-}
-
-
-class Customer{
-    Cart myCart;
-    void addItems(Product product, int quantity){
-        if(product.getQuantity<= quantity){
-            myCart.add(product);
-        }
-    }
-    void checkout(){
-
-    }
 }
