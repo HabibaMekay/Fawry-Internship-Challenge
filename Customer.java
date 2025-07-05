@@ -37,7 +37,7 @@ class Customer {
         for (Map.Entry<Product, Integer> entry : myCart.getItems().entrySet()) {
             Product product = entry.getKey();
             int quantity = entry.getValue();
-            if (product.isShippable()) {
+            if (product.isShippable == true) {
                 for (int i = 0; i < quantity; i++) {
                     shippableItems.add(product);
                 }
